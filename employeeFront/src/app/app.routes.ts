@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { CreateEmployeeComponent } from "../app/create-employee/create-employee.component";
+import { ListEmployeeComponent } from "../app/list-employee/list-employee.component";
+
 
 export const routes: Routes = [
 
@@ -7,12 +9,12 @@ export const routes: Routes = [
         path: ':employee',
         children: [
           {
-            path: 'create-employee',
+            path: 'create-employee/:idEmployee',
             component: CreateEmployeeComponent
           },
           {
             path: 'list-employee',
-            component: CreateEmployeeComponent
+            component: ListEmployeeComponent
           },
           {
             path: '**',
@@ -22,6 +24,6 @@ export const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: '/epssanitas'
+        redirectTo: '/employee/list-employee'
       }
 ];

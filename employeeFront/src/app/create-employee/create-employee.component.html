@@ -1,21 +1,43 @@
-<div id="register" class="d-flex align-items-center pt-5">
+
+  
+  <div id="register" class="d-flex align-items-center pt-5">
     <div class="container-fluid">
+      <div class="row">
+        <div
+          class="col-6  justify-content-center"
+        >
+          <a routerLink="/home">
+            <img
+              class="logo-header"
+              src="assets/Logo-Negro.png"
+              alt="Logo Castor"
+            />
+          </a>
+        </div>
+      </div>
+      
+      
         <div class="row">
             <div class="col-12 col-xl-6 offset-xl-5 pl-xl-5">
-                <h1 class="mb-3 title-1">Crear empleado</h1>
-                <form >
+                <h1 class="mb-3 title-1" style="color: #2dabfa;">Crear empleado</h1>
+                <div>
+                  @if (null != employeeLoad) {
+                    <img [src]=this.employeeLoad.photo>
+                  } 
+                </div>
+                <form [formGroup]="employeeForm" style="color: #1e1e1e;">
                     <h6 class="title-section">Datos del empleado</h6>
                     <div class="row">
                         <div class="col-12 col-lg-6">
-                          <div class="form-group required"
-                           required>
+                          <div class="form-group " >
                             <label class="subtitle_l2">Tipo de documento</label>
-                            <select id="tipoDoc" id="idTipo" class="form-control selectpicker" formControlName="idTipoDocIdentidad_LeaTipoDocIdentidad"
-                               title="Seleccione tipo de documento"
-                              required>
-                              <option *ngFor="let documento of listaDocumentos" [value]="documento.idTipoDocIdentidad">
-                                {{ documento.nombre }}
-                              </option>
+                            <select class="form-control" id="idTypeDocument" formControlName="idTypeDocument" required="">
+                              <option [value]="null">Seleccione...</option>
+                              @for ( item of listTypeDocument; track item.idTypeDocument){
+                                <option  [value]="item.idTypeDocument">
+                                  {{ item.codeTypeDocument }}
+                                </option>
+                              }
                             </select>
                             <div class="invalid-feedback">
                               Campo obligatorio
@@ -25,22 +47,21 @@
                         <div class="col">
                           <div class="form-group" >
                             <label class="subtitle_l2">Número de documento</label>
-                            <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control" minlength="5"
-                               formControlName="numeroDocumento" id="InputCedula" autocomplete="off"
-                              placeholder="Número de documento"  required />
+                            <input type="number"  class="form-control" minlength="5" formControlName="numberDocument" id="numberDocument" autocomplete="off" required />
                             <div class="invalid-feedback">
                               Campo obligatorio
                             </div>
                           </div>
                         </div>
                     </div>
+                    <p>
+                      
+                    </p>
                     <div class="row">
                         <div class="col-12 col-lg-6">
                             <div class="form-group" >
                                 <label class="subtitle_l2" for="Inputname">Nombre(s) </label>
-                                <input type="text" formControlName="razonSocial" maxlength="100" class="form-control"
-                                    id="Inputname" autocomplete="off" placeholder="Nombre o razón social"
-                                     required>
+                                <input type="text" formControlName="name" maxlength="100" class="form-control" id="name" autocomplete="off"  required>
                                 <div class="invalid-feedback">
                                     Campo obligatorio
                                 </div>
@@ -50,38 +71,37 @@
                         <div class="col">
                             <div class="form-group" >
                                 <label class="subtitle_l2" for="Inputname">Apellido(s) </label>
-                                <input type="text" formControlName="razonSocial" maxlength="100" class="form-control"
-                                    id="Inputname" autocomplete="off" placeholder="Nombre o razón social"
-                                     required>
+                                <input type="text" formControlName="lastName" maxlength="100" class="form-control" id="lastName" autocomplete="off" required>
                                 <div class="invalid-feedback">
                                     Campo obligatorio
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    <p>
+                      
+                    </p>
                     <div class="row">
                         <div class="col-12 col-lg-12">
                             <div class="form-group" >
                                 <label class="subtitle_l2" for="Inputname">Foto </label>
-                                <input type="file" formControlName="razonSocial" maxlength="100" class="form-control"
-                                    id="Inputname" autocomplete="off" placeholder="Nombre o razón social"
-                                     required>
+                                <input type="file" accept="image/*" formControlName="photoBase64" class="form-control"
+                                    id="photoBase64" autocomplete="off" placeholder="Face image" (change)="captureFile($event)">
                                 <div class="invalid-feedback">
                                     Campo obligatorio
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    <p>
+                      
+                    </p>
                     <div class="row">
                         <div class="col-12 col-lg-6">
                           <div class="form-group" >
                             <label class="subtitle_l2">Fecha de ingreso</label>
-                            <input class="textbox-n" type="text" onfocus="(this.type='date')"
-                              formControlName="fechaRegistroActividadEcon"  class="form-control"
-                              id="InputConstitucion" placeholder="Año de constitución"
-                              required>
+                            <input class="textbox-n" type="date" formControlName="dateAdmission"  class="form-control"
+                              id="dateAdmission" required>
                             <div class="invalid-feedback">
                               Campo obligatorio
                             </div>
@@ -92,12 +112,13 @@
                             <div class="form-group required"
                              required>
                               <label class="subtitle_l2">Categoria</label>
-                              <select id="tipoDoc" id="idTipo" class="form-control selectpicker" formControlName="idTipoDocIdentidad_LeaTipoDocIdentidad"
-                                 title="Seleccione tipo de documento"
-                                required>
-                                <option *ngFor="let documento of listaDocumentos" [value]="documento.idTipoDocIdentidad">
-                                  {{ documento.nombre }}
-                                </option>
+                              <select class="form-control" id="idPosition" formControlName="idPosition" >
+                                <option [value]="null">Seleccione...</option>
+                                @for ( item of listPosition; track item.idPosition){
+                                  <option  [value]="item.idPosition">
+                                    {{ item.name }}
+                                  </option>
+                                }
                               </select>
                               <div class="invalid-feedback">
                                 Campo obligatorio
@@ -105,8 +126,25 @@
                             </div>
                           </div>
                     </div>
+
+                    <p>
+
+                    </p>
+                    <p>
+                      
+                    </p>
+                    <div class="d-flex align-items-center">
+                      <div class="col-md-2">
+                        <button type="button" style=" background-color:black; color: white;" class="btn btn-primary me-md-2" [disabled]="!employeeForm.valid"  (click)="saveEmployee()">Registrar</button>
+                      </div>
+                      <div class="col-md-2">
+                        <button type="button" style=" background-color:black; color: white;" class="btn btn-primary" (click)="volverEmployee()">Volver</button>
+                        </div>
+                  </div>
+
                 </form>
             </div>
+           
         </div>
     </div>
 </div>
